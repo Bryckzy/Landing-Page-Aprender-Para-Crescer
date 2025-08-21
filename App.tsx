@@ -1,13 +1,14 @@
+
 import React from 'react';
-import { CheckIcon, StarIcon } from './components/icons';
+import { CheckIcon, StarIcon, ChevronLeftIcon, ChevronRightIcon } from './components/icons';
 
 const books = [
-  { title: "O Pato no Lago", emoji: "🦆" },
-  { title: "A Fada Boa", emoji: "🧚‍♀️" },
-  { title: "O Bolo do Zezé", emoji: "🎂" },
-  { title: "A Vaca MuMu", emoji: "🐮" },
-  { title: "Ovelha Bebé", emoji: "🐑" },
-  { title: "Caco o Macaco", emoji: "🐵" },
+  { title: "O Pato no Lago", imageUrl: "https://i.imgur.com/cDQeNWN.jpeg" },
+  { title: "A Fada Boa", imageUrl: "https://i.imgur.com/7rOTfb1.jpeg" },
+  { title: "O Bolo do Zezé", imageUrl: "https://i.imgur.com/zbzVepn.png" },
+  { title: "A Vaca MuMu", imageUrl: "https://i.imgur.com/IBslXKU.jpeg" },
+  { title: "Ovelha Bebé", imageUrl: "https://i.imgur.com/X6hKxUN.jpeg" },
+  { title: "Caco o Macaco", imageUrl: "https://i.imgur.com/0UDqo8F.jpeg" },
 ];
 
 const features = [
@@ -111,29 +112,46 @@ const Hero: React.FC = () => (
     </section>
 );
 
-const BookCard: React.FC<{ title: string; emoji: string }> = ({ title, emoji }) => (
-    <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center transition-all duration-300 hover:-translate-y-2 border-2 border-transparent hover:border-brand-pink hover:shadow-2xl hover:shadow-brand-pink/30">
-        <div className="text-7xl mb-4" aria-hidden="true">{emoji}</div>
-        <h3 className="font-bold text-xl text-gray-800 h-14 flex items-center">{title}</h3>
+const BookCoverCard: React.FC<{ title: string; imageUrl: string }> = ({ title, imageUrl }) => (
+    <div 
+        className="relative transform transition-all duration-300 ease-in-out group-hover:scale-90 group-hover:opacity-70 hover:!scale-110 hover:!opacity-100 hover:!z-20"
+        role="listitem"
+    >
+        <div className="relative rounded-xl shadow-lg transition-all duration-300 ease-in-out hover:drop-shadow-[0_10px_20px_rgba(255,217,125,0.5)]">
+            <img 
+                src={imageUrl} 
+                alt={`Capa do livro ${title}`}
+                className="w-full h-auto aspect-[2/3] object-cover bg-gray-200 rounded-xl"
+                loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent rounded-xl"></div>
+            <h3 className="absolute bottom-0 left-0 p-4 text-sm md:text-base font-bold text-white drop-shadow-md">{title}</h3>
+        </div>
     </div>
 );
 
-
-const BookShowcase: React.FC = () => (
-    <section id="livrinhos" className="py-20 bg-brand-light-green/20 relative overflow-hidden">
-        <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-extrabold text-brand-dark-green">Conheça os 6 Livrinhos Mágicos</h2>
-                <p className="text-gray-600 mt-2 text-lg">Histórias encantadoras para cativar os pequenos leitores.</p>
+const BookShowcase: React.FC = () => {
+    return (
+        <section id="livrinhos" className="py-20 bg-brand-dark-green text-white relative overflow-hidden">
+             <div className="absolute inset-0 bg-gradient-to-t from-[#5a7d09] to-brand-dark-green opacity-80"></div>
+            <div className="container mx-auto px-6 relative z-10">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-4xl font-extrabold text-white drop-shadow-lg">Conheça os 6 Livrinhos Mágicos</h2>
+                    <p className="text-brand-light-green mt-2 text-lg">Uma coleção pensada para encantar e iniciar a jornada da leitura.</p>
+                </div>
+                <div 
+                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8 max-w-6xl mx-auto group"
+                    role="list"
+                    aria-label="Estante de livrinhos mágicos"
+                >
+                    {books.map((book) => (
+                        <BookCoverCard key={book.title} title={book.title} imageUrl={book.imageUrl} />
+                    ))}
+                </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
-                {books.map((book) => (
-                    <BookCard key={book.title} title={book.title} emoji={book.emoji} />
-                ))}
-            </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 const FeatureCard: React.FC<{ emoji: string; title: string; description: string; circleClassName: string; }> = ({ emoji, title, description, circleClassName }) => (
     <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-md border border-gray-100 text-center flex flex-col items-center transform transition-transform duration-300 hover:scale-105 h-full">
